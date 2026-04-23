@@ -8,7 +8,9 @@ spring:
     stream:
       bindings: 
 
-        userRegistrationMail-in-0:
+        userRegistrationMail-in-0: 
+          consumer: 
+            max-attempts: 1
           destination: ecomm/user/registration/user
           group: email-group
 
@@ -25,7 +27,7 @@ spring:
     password: ${MAIL_PASSWORD}
     properties:
       mail:
-        smpt:
+        smtp:
           auth: true
           starttls:
             enable: true
