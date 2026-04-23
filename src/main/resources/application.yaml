@@ -1,3 +1,45 @@
 spring:
   application:
     name: UserRegServiceEcomm
+
+
+# subscriber configuration
+  cloud: 
+    stream:
+      bindings: 
+
+        userRegistrationMail-in-0: 
+          consumer: 
+            max-attempts: 1
+          destination: ecomm/user/registration/user
+          group: email-group
+
+      default:
+        binder: solace
+    function:
+      definition: userRegistrationMail
+
+# Mail app Connection
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+# solace broker connection for messages
+solace:
+  java:
+    host: tcp://localhost:55555
+    msgVpn: default
+    clientUsername: admin
+    clientPassword: admin
+
+server:
+  port: 8083
